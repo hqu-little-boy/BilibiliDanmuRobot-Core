@@ -52,8 +52,9 @@ func ThanksGift(ctx context.Context, svcCtx *svc.ServiceContext) {
 			t.Reset(w)
 		case g = <-thanksGiver.giftChan:
 			thanksGiver.locked.Lock()
+			fmt.Printf("%s的%s", g.Data.Uname, g.Data.GiftName)
 			if g.Data.BlindGift.OriginalGiftName == "" {
-				//fmt.Printf("非盲盒: ")
+				fmt.Println(": 非盲盒")
 				if _, ok := thanksGiver.giftNotBlindBoxTable[g.Data.Uname]; !ok {
 					thanksGiver.giftNotBlindBoxTable[g.Data.Uname] = make(map[string]map[string]int)
 				}
@@ -63,11 +64,11 @@ func ThanksGift(ctx context.Context, svcCtx *svc.ServiceContext) {
 				thanksGiver.giftNotBlindBoxTable[g.Data.Uname][g.Data.GiftName]["cost"] += g.Data.Price
 				thanksGiver.giftNotBlindBoxTable[g.Data.Uname][g.Data.GiftName]["count"] += g.Data.Num
 			} else {
-				//fmt.Printf("盲盒: ")
+				fmt.Println(": 盲盒")
 				if _, ok := thanksGiver.giftBlindBoxTable[g.Data.Uname]; !ok {
 					thanksGiver.giftBlindBoxTable[g.Data.Uname] = make(map[string]map[string]int)
 				}
-				if _, ok := thanksGiver.giftBlindBoxTable[g.Data.Uname][g.Data.GiftName]; !ok {
+				if _, ok := thanksGiver.giftBlindBoxTable[g.Data.Uname][g.Data.BlindGift.OriginalGiftName]; !ok {
 					thanksGiver.giftBlindBoxTable[g.Data.Uname][g.Data.BlindGift.OriginalGiftName] = make(map[string]int)
 				}
 				thanksGiver.giftBlindBoxTable[g.Data.Uname][g.Data.BlindGift.OriginalGiftName]["count"] += g.Data.Num
@@ -110,17 +111,18 @@ func summarizeGift(danmuLen int, minCost int) {
 		if sumCost < minCost {
 			// discard
 		} else if len(ms) > danmuLen {
-			PushToBulletSender("感谢 " + name + " 的")
-			PushToBulletSender(msgShort)
+			fmt.Println("感谢 " + name + " 的")
+			fmt.Println(msgShort)
 		} else {
-			PushToBulletSender(msg)
+			fmt.Println(msg)
 		}
 
 		//fmt.Println("礼物-----", name, giftstring)
 		// 总打赏高于x元，加一句大气
 		if sumCost >= 50000 { // 50元
-			PushToBulletSender(name + "老板大气大气")
+			fmt.Println(name + "老板大气大气")
 		}
+		fmt.Println("---------------------------")
 		delete(thanksGiver.giftNotBlindBoxTable, name)
 	}
 
@@ -151,11 +153,12 @@ func summarizeGift(danmuLen int, minCost int) {
 		ms := []rune(msg)
 
 		if len(ms) > danmuLen {
-			PushToBulletSender("感谢 " + name + " 的")
-			PushToBulletSender(msgShort)
+			fmt.Println("感谢 " + name + " 的")
+			fmt.Println(msgShort)
 		} else {
-			PushToBulletSender(msg)
+			fmt.Println(msg)
 		}
+		fmt.Println("---------------------------")
 		delete(thanksGiver.giftBlindBoxTable, name)
 	}
 }
