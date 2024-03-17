@@ -17,7 +17,6 @@ import (
 	"github.com/xbclub/BilibiliDanmuRobot-Core/utiles"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
-	"math/rand"
 	"os"
 	"strconv"
 )
@@ -182,6 +181,7 @@ func (w *wsHandler) startLogic() {
 	logx.Info("pk提醒已开启")
 
 	logx.Info("弹幕处理已开启")
+	logx.Info("进入直播间", w.svc.Config.RoomId)
 	//定时弹幕
 	w.corndanmuStart()
 
@@ -240,14 +240,14 @@ func (w *wsHandler) corndanmuStart() {
 			_, err := w.corndanmu.AddFunc(danmus.Cron, func() {
 				if len(danmus.Danmu) > 0 {
 					if danmus.Random {
-						logic.PushToBulletSender(danmus.Danmu[rand.Intn(len(danmus.Danmu))])
+						//logic.PushToBulletSender(danmus.Danmu[rand.Intn(len(danmus.Danmu))])
 					} else {
 						_, ok := w.mapCronDanmuSendIdx[i]
 						if !ok {
 							w.mapCronDanmuSendIdx[i] = 0
 						}
 						w.mapCronDanmuSendIdx[i] = w.mapCronDanmuSendIdx[i] + 1
-						logic.PushToBulletSender(danmus.Danmu[w.mapCronDanmuSendIdx[i]%len(danmus.Danmu)])
+						//logic.PushToBulletSender(danmus.Danmu[w.mapCronDanmuSendIdx[i]%len(danmus.Danmu)])
 					}
 				}
 			})

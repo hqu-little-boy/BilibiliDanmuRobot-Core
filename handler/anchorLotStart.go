@@ -9,7 +9,7 @@ func (w *wsHandler) anchorLot() {
 		if w.svc.Config.InteractWord || w.svc.Config.EntryEffect {
 			w.svc.Config.InteractWord = false
 			w.svc.Config.EntryEffect = false
-			logic.PushToBulletSender("识别到天选，欢迎弹幕已临时关闭")
+			//logic.PushToBulletSender("识别到天选，欢迎弹幕已临时关闭")
 		}
 	})
 	// 天选中奖

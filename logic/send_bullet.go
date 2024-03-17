@@ -15,8 +15,8 @@ type BulletSender struct {
 }
 
 func PushToBulletSender(bullet string) {
-	logx.Info("PushToBulletSender成功", bullet)
-	sender.bulletChan <- bullet
+	//logx.Info("PushToBulletSender成功", bullet)
+	//sender.bulletChan <- bullet
 }
 
 func StartSendBullet(ctx context.Context, svcCtx *svc.ServiceContext) {

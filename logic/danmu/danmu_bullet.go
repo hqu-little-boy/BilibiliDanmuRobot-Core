@@ -62,7 +62,7 @@ func StartDanmuLogic(ctx context.Context, svcCtx *svc.ServiceContext) {
 				}
 			}
 			// 实时输出弹幕消息
-			logx.Infof("%v %s:%s", uid, from[1], danmumsg)
+			//logx.Infof("%v %s:%s", uid, from[1], danmumsg)
 		}
 
 	}
